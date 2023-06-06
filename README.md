@@ -13,8 +13,11 @@
   - [Results](#results-3)
 - [Conclusion](#conclusion)
 
+This lab report has been published on [GitHub](https://github.com/Jing-yilin/Embedded-System-Lab#challenge-1---line-follower-part-1) of Jing-yilin.
 
 # Introduction
+
+
 
 # Challenge 1 - Line follower, Part 1
 
@@ -32,207 +35,16 @@ The main priciple is that **the ground sensors will detect a higher value if the
 
 Firstly, I have to make sure the car can **move forward in a straight line**.  **I use a duty cycle of 0.09 (9%), which is `float duty = 0.09;`, to make sure the car moves forward not too fastly or too slowly**. However, the car does not move in a straight line at times. It may turn left or turn right. Thus, **I add other two variables `float left_adjust = 1.20;` and `float right_adjust = 1.22;` to adjust the speed of the left and right motor respectively**. Therefore, the car moves in a straight line after the adjustment.
 
-Secondly, **black line threashold values of the ground sensors need to be determined.** I put the robot on the black line, and the values of the ground sensors are read and printed to the serial monitor. The values of the ground sensors are around 900 (threashold values are not stable and vary among the robots), so **I set the black line threashold values to 900, `int blackThread[4] = {900, 900, 900, 900};`.**
+Secondly, **black line threashold values of the ground sensors need to be determined.** I put the robot on the black line, and the values of the ground sensors are read and printed to the serial monitor. The values of the ground sensors are around 900 (threashold values are not stable and vary among the robots), so **I set the black line threashold values to 900, `int blackThreashold[4] = {900, 900, 900, 900};`.**
 
 Furthermore, I **use a green LED to indicate the status of the robot**. The green LED will be on if the robot detects a black line, and off if the robot detects a white line.
 
 However, I want to mention that although four ground sensors are used, **only two sensors values (sensor 1 and sensor 2) are utilized** to determine the black line. Other two sensor values will be used in Challenge 2 to detect big angles.
 
-Cosequently, the robot can follow a black line with the following main code (only global variables, stepup and main loop are shown):
+Cosequently, the robot can follow a black line with the following main code (only main loop are shown):
 
 
 ```c
-unsigned char pwm_right = 5;               // pin number to control the right motor
-unsigned char dir_right = 2;               // pin number to control the right motor
-unsigned char pwm_left = 6;                // pin number to control the left motor
-unsigned char dir_left = 7;                // pin number to control the left motor
-
-int groundIRSensor[4] = {8, 9, 10, 11};    // 4 ground IR proximity sensor
-int line[4] = {};                          // store the value of ground IR sensor
-int blackThread[4] = {900, 900, 900, 900}; // the threshold of black line
-
-float duty = 0.09;                         // duty cycle
-float left_adjust = 1.20;                  // adjust the left motor
-float right_adjust = 1.22;                 // adjust the right motor
-
-/**
- * @brief To initialize the register for ground IR sensor and ground IR LED
- */
-void groundIRInit()
-{
-...
-}
-/**
- * @brief To initialize the register for left and right motor
- */
-void motorInit()
-{
-...
-}
-/**
- * @brief To initialize the register for green LED
- */
-void greenLEDInit()
-{
-...
-}
-
-/*************** Ground IR LED Control ***************/
-
-/**
- * @brief Turn on the ground LED numbered `lineIndex`
- * @param lineIndex
- */
-void groundLEDon(unsigned char lineIndex)
-{
-...
-}
-/**
- * @brief Turn off the ground LED numbered `lineIndex`
- * @param lineIndex
- */
-void groundLEDoff(unsigned char lineIndex)
-{
-...
-}
-
-/*************** Green LED Control ***************/
-
-/**
- * @brief Turn on the green LED
- */
-void greenLEDon()
-{
-...
-}
-
-/**
- * @brief Turn off the green LED
- */
-void greenLEDoff()
-{
-...
-}
-
-/*************** GroundSensor Control ***************/
-
-/**
- * @brief Read the value of ground IR sensor and store it in `line`
- */
-void readGroundIRSensors()
-{
-...
-}
-
-/**
- * @brief Show the value of ground IR sensor
- */
-void showGroundIRSensorLine()
-{
-...
-}
-
-/*************** Motor Control ***************/
-
-/**
- * @brief Move the left motor forward
- * @param duty
- */
-void leftMotorForward(float duty)
-{
-...
-}
-
-/**
- * @brief Move the right motor forward
- * @param duty
- */
-void rightMotorForward(float duty)
-{
-...
-}
-
-/**
- * @brief Move the left motor backward
- * @param duty
- */
-void leftMotorBackward(float duty)
-{
-...
-}
-
-/**
- * @brief Move the right motor backward
- * @param duty
- */
-void rightMotorBackward(float duty)
-{
-...
-}
-
-/**
- * @brief Stop the left motor
- */
-void leftMotorStop()
-{
-...
-}
-
-/**
- * @brief Stop the right motor
- */
-void rightMotorStop()
-{
-...
-}
-
-/**
- * @brief Turn left
- * @param duty
- */
-void leftTurn(float duty)
-{
-...
-}
-
-/**
- * @brief Turn right
- * @param duty
- */
-void rightTurn(float duty)
-{
-...
-}
-
-/**
- * @brief Move forward
- * @param duty
- */
-void moveForward(float duty)
-{
-...
-}
-
-/**
- * @brief Stop the car
- */
-void stop()
-{
-...
-}
-/*************** Setup Control ***************/
-
-/**
- * @brief Initialize the registers and serial port
- */
-void setup()
-{
-    greenLEDInit();
-    groundIRInit();
-    motorInit();
-    Serial.begin(9600);
-}
-
 /*************** main loop Control ***************/
 
 void loop()
@@ -240,7 +52,7 @@ void loop()
     readGroundIRSensors(); // read the value of ground IR sensor
     moveForward(duty);     // move forward
 
-    if (line[1] > blackThread[1]) // black line on left
+    if (line[1] > blackThreashold[1]) // black line on left
     {
         greenLEDon();   // turn on the green LED
         leftTurn(duty); // turn left
@@ -249,7 +61,7 @@ void loop()
     {
         greenLEDoff(); // turn off the green LED
     }
-    if (line[2] > blackThread[2]) // black line on right
+    if (line[2] > blackThreashold[2]) // black line on right
     {
         greenLEDon();    // turn on the green LED
         rightTurn(duty); // turn right
@@ -261,7 +73,7 @@ void loop()
 }
 ```
 
-<video src="./videoChallenge1.mp4"></video>
+<video src="./video/Challenge1.mp4"></video>
 
 
 
@@ -282,222 +94,16 @@ Most of the code is the same as Challenge 1. The main difference is that the rob
 The robot can follow a black line in Challeng 2 with the following main code (only global variables, stepup and main loop are shown):
 
 ```c
-unsigned char pwm_right = 5;               // pin number to control the right motor
-unsigned char dir_right = 2;               // pin number to control the right motor
-unsigned char pwm_left = 6;                // pin number to control the left motor
-unsigned char dir_left = 7;                // pin number to control the left motor
-
-int groundIRSensor[4] = {8, 9, 10, 11};    // 4 ground IR proximity sensor
-int line[4] = {};                          // store the value of ground IR sensor
-int blackThread[4] = {900, 900, 900, 900}; // the threshold of black line
-
-float duty = 0.09;                         // duty cycle
-float left_adjust = 1.20;                  // adjust the left motor
-float right_adjust = 1.22;                 // adjust the right motor
-
-/**
- * @brief To initialize the register for ground IR sensor and ground IR LED
- */
-void groundIRInit()
-{
-...
-}
-/**
- * @brief To initialize the register for left and right motor
- */
-void motorInit()
-{
-...
-}
-/**
- * @brief To initialize the register for green LED
- */
-void greenLEDInit()
-{
-...
-}
-
-/*************** Ground IR LED Control ***************/
-
-/**
- * @brief Turn on the ground LED numbered `lineIndex`
- * @param lineIndex
- */
-void groundLEDon(unsigned char lineIndex)
-{
-...
-}
-/**
- * @brief Turn off the ground LED numbered `lineIndex`
- * @param lineIndex
- */
-void groundLEDoff(unsigned char lineIndex)
-{
-...
-}
-
-/*************** Green LED Control ***************/
-
-/**
- * @brief Turn on the green LED
- */
-void greenLEDon()
-{
-...
-}
-
-/**
- * @brief Turn off the green LED
- */
-void greenLEDoff()
-{
-...
-}
-
-/*************** GroundSensor Control ***************/
-
-/**
- * @brief Read the value of ground IR sensor and store it in `line`
- */
-void readGroundIRSensors()
-{
-...
-}
-
-/**
- * @brief Show the value of ground IR sensor
- */
-void showGroundIRSensorLine()
-{
-...
-}
-
-/*************** Motor Control ***************/
-
-/**
- * @brief Move the left motor forward
- * @param duty
- */
-void leftMotorForward(float duty)
-{
-...
-}
-
-/**
- * @brief Move the right motor forward
- * @param duty
- */
-void rightMotorForward(float duty)
-{
-...
-}
-
-/**
- * @brief Move the left motor backward
- * @param duty
- */
-void leftMotorBackward(float duty)
-{
-...
-}
-
-/**
- * @brief Move the right motor backward
- * @param duty
- */
-void rightMotorBackward(float duty)
-{
-...
-}
-
-/**
- * @brief Stop the left motor
- */
-void leftMotorStop()
-{
-...
-}
-
-/**
- * @brief Stop the right motor
- */
-void rightMotorStop()
-{
-...
-}
-
-/**
- * @brief Turn left
- * @param duty
- */
-void leftTurn(float duty)
-{
-...
-}
-
-/**
- * @brief Turn right
- * @param duty
- */
-void rightTurn(float duty)
-{
-...
-}
-
-/**
- * @brief Turn left with big angle
- * @param duty
- */
-void leftTurnBigAngle(float duty)
-{
-...
-}
-
-/**
- * @brief Turn right with big angle
- * @param duty
- */
-void rightTurnBigAngle(float duty)
-{
-...
-}
-
-/**
- * @brief Move forward
- * @param duty
- */
-void moveForward(float duty)
-{
-...
-}
-
-/**
- * @brief Stop the car
- */
-void stop()
-{
-...
-}
-/*************** Setup Control ***************/
-
-/**
- * @brief Initialize the registers and serial port
- */
-void setup()
-{
-    greenLEDInit();
-    groundIRInit();
-    motorInit();
-    Serial.begin(9600);
-}
-
 /*************** main loop Control ***************/
 
 void loop()
 {
     readGroundIRSensors();          // read the value of ground IR sensor
     moveForward(duty);              // move forward
-    if ((line[0] > blackThread[0])) // black line on the most left sensor
+    /**
+     * 1. Control the big angle
+     */
+    if (line[0] > blackThreashold[0]) // black line on the most left sensor
     {
         leftTurnBigAngle(duty); // turn left with big angle
         greenLEDon(0);          // turn on the green LED 0
@@ -506,7 +112,7 @@ void loop()
     {
         greenLEDoff(0); // turn off the green LED 0
     }
-    if ((line[3] > blackThread[3])) // black line on the most right sensor
+    if (line[3] > blackThreashold[3]) // black line on the most right sensor
     {
         rightTurnBigAngle(duty); // turn right with big angle
         greenLEDon(3);           // turn on the green LED 3
@@ -515,7 +121,10 @@ void loop()
     {
         greenLEDoff(3); // turn off the green LED 3
     }
-    if (line[1] > blackThread[1]) // black line on left
+    /**
+     * 2. Control the small angle
+     */
+    if (line[1] > blackThreashold[1]) // black line on left
     {
         greenLEDon(1);  // turn on the green LED 1
         leftTurn(duty); // turn left
@@ -524,7 +133,7 @@ void loop()
     {
         greenLEDoff(1); // turn off the green LED 1
     }
-    if (line[2] > blackThread[2]) // black line on right
+    if (line[2] > blackThreashold[2]) // black line on right
     {
         greenLEDon(2);   // turn on the green LED 2
         rightTurn(duty); // turn right
@@ -544,15 +153,141 @@ void loop()
 
 ## Description
 
+Challenge 3 aims to **control the robot driving in a black-bodered box and avoid the obstacles**. The robot starts off inside the box and should turn random angle when it detects the black line edge. At the same time, the robot should avoid two obstacles in the box.
 
-
+**Obstable avoidance algorithm** is implemented by using the proximity sensors and **border detection algorithm** is implemented by using the ground IR sensors.
 
 ## Results
 
+Firstly, it is crucial to **find the mathematic relationship between the distance and the value of proximity sensor**. By detecting and recording the value of proximity sensor at different distance, we can plot the graph of the relationship between the distance and the value of proximity sensor using MATLAB. The table and graph are shown below.
+
+| Real Distance (mm) | Proximity Sensor Value |
+| :----------------: | :--------------------: |
+|         2          |           53           |
+|         4          |           75           |
+|         6          |          475           |
+|         8          |          560           |
+|         10         |          674           |
+|         14         |          786           |
+|         16         |          807           |
+|         18         |          846           |
+|         22         |          868           |
+|         24         |          879           |
+
+![Relationship between Real Distance and Proximity Sensor Value](imgs/Relationship%20between%20Real%20Distance%20and%20Proximity%20Sensor%20Value.png)
+$$
+y(x) = 0.02161x -0.6154
+$$
+Thus, we can define a function to transform the value of IR proximity sensor to the real distance:
+
+```c
+/**
+ * @brief Calculate the real distance from IR proximity sensor value
+ */
+double getRealProximity(int proximityValue)
+{
+    double realProximity = 0.02161 * proximityValue + -0.6154;
+    return realProximity;
+}
+```
+
+Nevertheless, this **formula is not accurate enough**. Therefore, it is better to define a fixed threshold value to determine whether the robot is close to the obstacle or not. The threshold is set to 15 cm by testing, which is `int distanceThreashold_15mm = 800;  `.
+
+Since we have determined the threshold of the ground IR sensors in Challenge 1 and 2, **we can use the same threshold values in Challenge 3**.
+
+Following the instruction, the robot should turn random angle when it detects the black line edge. By defining `float random_angle = random(15, 25) / 10.0;`, The random angle is set to be between 1.5 and 2.5 seconds.
+
+Consequently, the **obstacle avoidance algorithm** (only the core part) is implemented as follows:
+
+```c
+/**
+ * 1. Avoidance algrithm
+ */
+if (proximity[0] < distanceThreashold_15mm) // IR sensor 0 is very close to the wall
+{
+    leftTurnInPlace(duty * 1.6);
+    delay(30);
+    moveForward(duty);
+    delay(5);
+}
+if (proximity[1] < distanceThreashold_15mm) // IR sensor 1 is very close to the wall
+{
+    leftTurn(duty);
+    delay(5);
+}
+if (proximity[7] < distanceThreashold_15mm + 150) // IR sensor 7 is very close to the wall
+{
+    rightTurn(duty);
+    delay(5);
+}
+if (proximity[2] < distanceThreashold_15mm) // IR sensor 2 is very close to the wall
+{
+    leftTurn(duty);
+    delay(5);
+}
+if (proximity[6] < distanceThreashold_15mm) // IR sensor 6 is very close to the wall
+{
+    rightTurn(duty);
+    delay(5);
+}
+```
+
+And the **border detection algorithm** (only the core part) is implemented as follows:
+
+```c
+/**
+ * 2. Border detection algrithm
+ */
+if (line[1] > blackThreashold[1]) // black line on left
+{
+    greenLEDon(1);
+    rightTurnInPlace(duty * random_angle); // turn right in random angle
+    delay(20);
+    moveForward(duty);
+    delay(5);
+}
+else
+{
+    greenLEDoff(1);
+}
+
+if (line[2] > blackThreashold[2]) // black line on right
+{
+    greenLEDon(1);
+    leftTurnInPlace(duty * random_angle); // turn left in random angle
+    delay(20);
+    moveForward(duty);
+    delay(5);
+}
+else
+{
+    greenLEDoff(1);
+}
+
+if (line[1] > blackThreashold[1] & line[2] > blackThreashold[2]) // The car has reached the corder
+{
+    greenLEDon(1);
+    rightTurnInPlace(duty * random_angle); // turn right in random angle
+    delay(40);
+    moveForward(duty);
+    delay(5);
+}
+else
+{
+    greenLEDoff(1);
+}
+```
+
+
+<video src="./video/Challenge3.mp4"></video>
 
 # Challenge 4 - Line and corridor follower
 
+![image-20230606145823659](imgs/image-20230606145823659.png)
+
 ## Description
+
+
 
 ## Results
 

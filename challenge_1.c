@@ -14,7 +14,7 @@ unsigned char dir_left = 7;                // pin number to control the left mot
 
 int groundIRSensor[4] = {8, 9, 10, 11};    // 4 ground IR proximity sensor
 int line[4] = {};                          // store the value of ground IR sensor
-int blackThread[4] = {900, 900, 900, 900}; // the threshold of black line
+int blackThreashold[4] = {900, 900, 900, 900}; // the threshold of black line
 float duty = 0.09;                         // duty cycle
 float left_adjust = 1.20;                  // adjust the left motor
 float right_adjust = 1.22;                 // adjust the right motor
@@ -234,7 +234,7 @@ void loop()
     readGroundIRSensors(); // read the value of ground IR sensor
     moveForward(duty);     // move forward
 
-    if (line[1] > blackThread[1]) // black line on left
+    if (line[1] > blackThreashold[1]) // black line on left
     {
         greenLEDon();   // turn on the green LED
         leftTurn(duty); // turn left
@@ -243,7 +243,7 @@ void loop()
     {
         greenLEDoff(); // turn off the green LED
     }
-    if (line[2] > blackThread[2]) // black line on right
+    if (line[2] > blackThreashold[2]) // black line on right
     {
         greenLEDon();    // turn on the green LED
         rightTurn(duty); // turn right

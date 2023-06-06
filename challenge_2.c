@@ -14,7 +14,7 @@ unsigned char dir_left = 7;                // pin number to control the left mot
 
 int groundIRSensor[4] = {8, 9, 10, 11};    // 4 ground IR proximity sensor
 int line[4] = {};                          // store the value of ground IR sensor
-int blackThread[4] = {900, 900, 900, 900}; // the threshold of black line
+int blackThreashold[4] = {900, 900, 900, 900}; // the threshold of black line
 
 float duty = 0.09;                         // duty cycle to control the speed of motor by pwm
 float left_adjust = 1.20;                  // adjust the left motor
@@ -272,7 +272,10 @@ void loop()
 {
     readGroundIRSensors();          // read the value of ground IR sensor
     moveForward(duty);              // move forward
-    if ((line[0] > blackThread[0])) // black line on the most left sensor
+    /**
+     * 1. Control the big angle
+     */
+    if (line[0] > blackThreashold[0]) // black line on the most left sensor
     {
         leftTurnBigAngle(duty); // turn left with big angle
         greenLEDon(0);          // turn on the green LED 0
@@ -281,7 +284,7 @@ void loop()
     {
         greenLEDoff(0); // turn off the green LED 0
     }
-    if ((line[3] > blackThread[3])) // black line on the most right sensor
+    if (line[3] > blackThreashold[3]) // black line on the most right sensor
     {
         rightTurnBigAngle(duty); // turn right with big angle
         greenLEDon(3);           // turn on the green LED 3
@@ -290,7 +293,10 @@ void loop()
     {
         greenLEDoff(3); // turn off the green LED 3
     }
-    if (line[1] > blackThread[1]) // black line on left
+    /**
+     * 2. Control the small angle
+     */
+    if (line[1] > blackThreashold[1]) // black line on left
     {
         greenLEDon(1);  // turn on the green LED 1
         leftTurn(duty); // turn left
@@ -299,7 +305,7 @@ void loop()
     {
         greenLEDoff(1); // turn off the green LED 1
     }
-    if (line[2] > blackThread[2]) // black line on right
+    if (line[2] > blackThreashold[2]) // black line on right
     {
         greenLEDon(2);   // turn on the green LED 2
         rightTurn(duty); // turn right

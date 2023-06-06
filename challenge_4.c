@@ -15,11 +15,11 @@ unsigned char dir_left = 7;                               // pin number to contr
 int proximityIRSensor[8] = {0, 1, 2, 3, 4, 5, 6, 7};      // 8 IR proximity sensor
 int proximityIRLed[8] = {22, 23, 24, 25, 26, 27, 28, 29}; // 8 IR LED
 int proximity[8] = {};                                    // store the value of IR sensor
-int distanceThread_15mm = 800;                            // the threshold of 15mm
+int distanceThreashold_15mm = 800;                        // the threshold of 15mm
 
 int groundIRSensor[4] = {8, 9, 10, 11};                   // 4 ground IR proximity sensor
 int line[4] = {};                                         // store the value of ground IR sensor
-int blackThread[4] = {850, 900, 900, 850};                // the threshold of black line
+int blackThreashold[4] = {850, 900, 900, 850};                // the threshold of black line
 
 float duty = 0.095;                                       // duty cycle to control the speed of motor by pwm
 float left_adjust = 1.20;                                 // adjust the left motor
@@ -343,7 +343,7 @@ void stop()
  */
 bool isCorner()
 {
-    if (line[0] > blackThread[0] & line[3] > blackThread[3])
+    if (line[0] > blackThreashold[0] & line[3] > blackThreashold[3])
     {
         return true;
     }
@@ -359,7 +359,7 @@ bool isCorner()
  */
 bool isDestination()
 {
-    if (line[0] > blackThread[0] & line[1] > blackThread[1] & line[2] > blackThread[2] & line[3] > blackThread[3])
+    if (line[0] > blackThreashold[0] & line[1] > blackThreashold[1] & line[2] > blackThreashold[2] & line[3] > blackThreashold[3])
     {
         return true;
     }
@@ -378,11 +378,11 @@ bool isDestination()
 void moveForwardSteadyByBlackLine(float duty)
 {
     moveForward(duty);
-    if (line[1] > blackThread[1]) // black line on left
+    if (line[1] > blackThreashold[1]) // black line on left
     {
         leftTurn(duty);
     }
-    if (line[2] > blackThread[2]) // black line on right
+    if (line[2] > blackThreashold[2]) // black line on right
     {
         rightTurn(duty);
     }
@@ -397,11 +397,11 @@ void turnLeft90DegreeAtCorner(float duty)
     leftTurnInPlace(duty);
     delay(350);
     moveForward(duty);
-    if (line[1] > blackThread[1]) // black line on left
+    if (line[1] > blackThreashold[1]) // black line on left
     {
         leftTurn(duty);
     }
-    if (line[2] > blackThread[2]) // black line on right
+    if (line[2] > blackThreashold[2]) // black line on right
     {
         rightTurn(duty);
     }
@@ -417,11 +417,11 @@ void turnRight90DegreeAtCorner(float duty)
     rightTurnInPlace(duty);
     delay(90);
     moveForward(duty);
-    if (line[1] > blackThread[1]) // black line on left
+    if (line[1] > blackThreashold[1]) // black line on left
     {
         leftTurn(duty);
     }
-    if (line[2] > blackThread[2]) // black line on right
+    if (line[2] > blackThreashold[2]) // black line on right
     {
         rightTurn(duty);
     }
@@ -435,11 +435,11 @@ void turnRight90DegreeAtCorner(float duty)
 void moveForwardSteadyByProximity(float duty)
 {
     moveForward(duty);
-    if (proximity[1] < distanceThread_15mm | proximity[2] < distanceThread_15mm) // the robot is too close to the wall on the right
+    if (proximity[1] < distanceThreashold_15mm | proximity[2] < distanceThreashold_15mm) // the robot is too close to the wall on the right
     {
         leftTurn(duty);
     }
-    if (proximity[7] < distanceThread_15mm | proximity[6] < distanceThread_15mm) // the robot is too close to the wall on the left
+    if (proximity[7] < distanceThreashold_15mm | proximity[6] < distanceThreashold_15mm) // the robot is too close to the wall on the left
     {
         rightTurn(duty);
     }
