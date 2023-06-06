@@ -296,23 +296,23 @@ void rightTurnBigAngle(float duty)
 }
 
 /**
- * @brief Turn left with 90 degree
+ * @brief Turn left in the same place
  * @param duty
  */
-void leftTurn90Angle(float duty)
+void leftTurnInPlace(float duty)
 {
-    leftMotorBackward(duty * 1.6);
-    rightMotorForward(duty * 1.6);
+    leftMotorBackward(duty);
+    rightMotorForward(duty);
 }
 
 /**
- * @brief Turn right with 90 degree
+ * @brief Turn right in the same place
  * @param duty
  */
-void rightTurn90Angle(float duty)
+void rightTurnInPlace(float duty)
 {
-    rightMotorBackward(duty * 1.6);
-    leftMotorForward(duty * 1.6);
+    rightMotorBackward(duty);
+    leftMotorForward(duty);
 }
 
 /**
@@ -394,7 +394,7 @@ void moveForwardSteadyByBlackLine(float duty)
  */
 void turnLeft90DegreeAtCorner(float duty)
 {
-    leftTurn90Angle(duty);
+    leftTurnInPlace(duty);
     delay(350);
     moveForward(duty);
     if (line[1] > blackThread[1]) // black line on left
@@ -414,7 +414,7 @@ void turnLeft90DegreeAtCorner(float duty)
  */
 void turnRight90DegreeAtCorner(float duty)
 {
-    rightTurn90Angle(duty);
+    rightTurnInPlace(duty);
     delay(90);
     moveForward(duty);
     if (line[1] > blackThread[1]) // black line on left
@@ -473,11 +473,11 @@ void loop()
         moveForwardSteadyByBlackLine(duty);
         break;
     case 1: // Turn Left base on BlackLine
-        turnLeft90DegreeAtCorner(duty);
+        turnLeft90DegreeAtCorner(duty*1.6);
         state = 0;
         break;
     case 2: // Turn Right base on BlackLine
-        turnRight90DegreeAtCorner(duty);
+        turnRight90DegreeAtCorner(duty*1.6);
         state = 0;
         break;
     case 3: // Move Forward base on avoidance

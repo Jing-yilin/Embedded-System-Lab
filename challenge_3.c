@@ -7,23 +7,23 @@ Candidate Number: 238628
 IDE: Arduino IDE
 */
 
-unsigned char pwm_right = 5;                              // pin number to control the right motor
-unsigned char dir_right = 2;                              // pin number to control the right motor
-unsigned char pwm_left = 6;                               // pin number to control the left motor
-unsigned char dir_left = 7;                               // pin number to control the left motor
+unsigned char pwm_right = 5; // pin number to control the right motor
+unsigned char dir_right = 2; // pin number to control the right motor
+unsigned char pwm_left = 6;  // pin number to control the left motor
+unsigned char dir_left = 7;  // pin number to control the left motor
 
 int proximityIRSensor[8] = {0, 1, 2, 3, 4, 5, 6, 7};      // 8 IR proximity sensor
 int proximityIRLed[8] = {22, 23, 24, 25, 26, 27, 28, 29}; // 8 IR LED
 int proximity[8] = {};                                    // store the value of IR sensor
 int distanceThread_15mm = 800;                            // the threshold of 15mm
 
-int groundIRSensor[4] = {8, 9, 10, 11};                   // 4 ground IR proximity sensor
-int line[4] = {};                                         // store the value of ground IR sensor
-int blackThread[4] = {900, 900, 900, 900};                // the threshold of black line
+int groundIRSensor[4] = {8, 9, 10, 11};    // 4 ground IR proximity sensor
+int line[4] = {};                          // store the value of ground IR sensor
+int blackThread[4] = {900, 900, 900, 900}; // the threshold of black line
 
-float duty = 0.09;                                        // duty cycle to control the speed of motor by pwm
-float left_adjust = 1.20;                                 // adjust the left motor
-float right_adjust = 1.22;                                // adjust the right motor
+float duty = 0.09;         // duty cycle to control the speed of motor by pwm
+float left_adjust = 1.20;  // adjust the left motor
+float right_adjust = 1.22; // adjust the right motor
 
 /*************** Register Initialization Control ***************/
 
@@ -292,23 +292,23 @@ void rightTurnBigAngle(float duty)
 }
 
 /**
- * @brief Turn left with 90 degree
+ * @brief Turn left in the same place
  * @param duty
  */
-void leftTurn90Angle(float duty)
+void leftTurnInPlace(float duty)
 {
-    leftMotorForward(0);
-    rightMotorForward(duty * 1.4);
+    leftMotorBackward(duty);
+    rightMotorForward(duty);
 }
 
 /**
- * @brief Turn right with 90 degree
+ * @brief Turn right in the same place
  * @param duty
  */
-void rightTurn90Angle(float duty)
+void rightTurnInPlace(float duty)
 {
-    rightMotorForward(0);
-    leftMotorForward(duty * 1.4);
+    rightMotorBackward(duty);
+    leftMotorForward(duty);
 }
 
 /**
@@ -349,13 +349,18 @@ void setup()
 
 void loop()
 {
+
+    float random_angle = random(15, 25) / 10.0; // random_angle is between 1.5 and 2.5
     readGroundIRSensors();
     readProximityIRSensors();
     moveForward(duty);
 
+    /**
+     * 1. Avoidance algrithm
+     */
     if (proximity[0] < distanceThread_15mm) // IR sensor 0 is very close to the wall
     {
-        leftTurn90Angle(duty);
+        leftTurnInPlace(duty * 1.6);
         delay(30);
         moveForward(duty);
         delay(5);
@@ -381,10 +386,26 @@ void loop()
         delay(5);
     }
 
+    /**
+     * 2. Border detection algrithm
+     */
     if (line[1] > blackThread[1]) // black line on left
     {
         greenLEDon(1);
-        rightTurn90Angle(duty); // turn right 90 degree
+        rightTurnInPlace(duty * random_angle); // turn right in random angle
+        delay(20);
+        moveForward(duty);
+        delay(5);
+    }
+    else
+    {
+        greenLEDoff(1);
+    }
+
+    if (line[2] > blackThread[2]) // black line on right
+    {
+        greenLEDon(1);
+        leftTurnInPlace(duty * random_angle); // turn left in random angle
         delay(20);
         moveForward(duty);
         delay(5);
@@ -397,7 +418,7 @@ void loop()
     if (line[1] > blackThread[1] & line[2] > blackThread[2]) // The car has reached the corder
     {
         greenLEDon(1);
-        rightTurn90Angle(duty); // turn right 90 degree
+        rightTurnInPlace(duty * random_angle); // turn right in random angle
         delay(40);
         moveForward(duty);
         delay(5);
