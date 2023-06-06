@@ -1,4 +1,18 @@
-[toc]
+- [Introduction](#introduction)
+- [Challenge 1 - Line follower, Part 1](#challenge-1---line-follower-part-1)
+  - [Description](#description)
+  - [Results](#results)
+- [Challenge 2 - Line follower, Part 2](#challenge-2---line-follower-part-2)
+  - [Description](#description-1)
+  - [Results](#results-1)
+- [Challenge 3 - Stay inside box and obstacle avoidance](#challenge-3---stay-inside-box-and-obstacle-avoidance)
+  - [Description](#description-2)
+  - [Results](#results-2)
+- [Challenge 4 - Line and corridor follower](#challenge-4---line-and-corridor-follower)
+  - [Description](#description-3)
+  - [Results](#results-3)
+- [Conclusion](#conclusion)
+
 
 # Introduction
 
