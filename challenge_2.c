@@ -24,6 +24,7 @@ float right_adjust = 1.22;                 // adjust the right motor
 
 /**
  * @brief To initialize the register for ground IR sensor and ground IR LED
+ * @evaluation Works well
  */
 void groundIRInit()
 {
@@ -32,6 +33,7 @@ void groundIRInit()
 }
 /**
  * @brief To initialize the register for left and right motor
+ * @evaluation Works well
  */
 void motorInit()
 {
@@ -40,6 +42,7 @@ void motorInit()
 }
 /**
  * @brief To initialize the register for green LED
+ * @evaluation Works well
  */
 void greenLEDInit()
 {
@@ -51,6 +54,7 @@ void greenLEDInit()
 
 /**
  * @brief Turn on the ground LED numbered `lineIndex`
+ * @evaluation Works well
  * @param lineIndex
  */
 void groundLEDon(unsigned char lineIndex)
@@ -59,6 +63,7 @@ void groundLEDon(unsigned char lineIndex)
 }
 /**
  * @brief Turn off the ground LED numbered `lineIndex`
+ * @evaluation Works well
  * @param lineIndex
  */
 void groundLEDoff(unsigned char lineIndex)
@@ -70,6 +75,7 @@ void groundLEDoff(unsigned char lineIndex)
 
 /**
  * @brief Turn on the green LED numbered `ledIndex`
+ * @evaluation Works well
  * @param ledIndex
  */
 void greenLEDon(unsigned char ledIndex)
@@ -86,6 +92,7 @@ void greenLEDon(unsigned char ledIndex)
 
 /**
  * @brief Turn off the green LED numbered `ledIndex`
+ * @evaluation Works well
  * @param ledIndex
  */
 void greenLEDoff(unsigned char ledIndex)
@@ -104,6 +111,7 @@ void greenLEDoff(unsigned char ledIndex)
 
 /**
  * @brief Read the value of ground IR sensor
+ * @evaluation Works well
  */
 void readGroundIRSensors()
 {
@@ -118,6 +126,7 @@ void readGroundIRSensors()
 
 /**
  * @brief Show the value of ground IR sensor
+ * @evaluation Works well
  */
 void showGroundIRSensorLine()
 {
@@ -133,6 +142,7 @@ void showGroundIRSensorLine()
 
 /**
  * @brief Control the left motor to move forward
+ * @evaluation Works well
  * @param duty
  */
 void leftMotorForward(float duty)
@@ -144,6 +154,7 @@ void leftMotorForward(float duty)
 
 /**
  * @brief Control the right motor to move forward
+ * @evaluation Works well
  * @param duty
  */
 void rightMotorForward(float duty)
@@ -155,6 +166,7 @@ void rightMotorForward(float duty)
 
 /**
  * @brief Control the left motor to move backward
+ * @evaluation Works well
  * @param duty
  */
 void leftMotorBackward(float duty)
@@ -166,6 +178,7 @@ void leftMotorBackward(float duty)
 
 /**
  * @brief Control the right motor to move backward
+ * @evaluation Works well
  * @param duty
  */
 void rightMotorBackward(float duty)
@@ -177,6 +190,7 @@ void rightMotorBackward(float duty)
 
 /**
  * @brief Control the left motor to stop
+ * @evaluation Works well
  */
 void leftMotorStop()
 {
@@ -186,6 +200,7 @@ void leftMotorStop()
 
 /**
  * @brief Control the right motor to stop
+ * @evaluation Works well
  */
 void rightMotorStop()
 {
@@ -195,6 +210,7 @@ void rightMotorStop()
 
 /**
  * @brief Turn left
+ * @evaluation Works well
  * @param duty
  */
 void leftTurn(float duty)
@@ -205,6 +221,7 @@ void leftTurn(float duty)
 
 /**
  * @brief Turn right
+ * @evaluation Works well
  * @param duty
  */
 void rightTurn(float duty)
@@ -215,6 +232,7 @@ void rightTurn(float duty)
 
 /**
  * @brief Turn left with big angle
+ * @evaluation Works well
  * @param duty
  */
 void leftTurnBigAngle(float duty)
@@ -225,6 +243,7 @@ void leftTurnBigAngle(float duty)
 
 /**
  * @brief Turn right with big angle
+ * @evaluation Works well
  * @param duty
  */
 void rightTurnBigAngle(float duty)
@@ -235,6 +254,7 @@ void rightTurnBigAngle(float duty)
 
 /**
  * @brief Move forward
+ * @evaluation Works well
  * @param duty
  */
 void moveForward(float duty)
@@ -245,6 +265,7 @@ void moveForward(float duty)
 
 /**
  * @brief Move backward
+ * @evaluation Works well
  * @param duty
  */
 void stop()

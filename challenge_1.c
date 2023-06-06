@@ -15,6 +15,7 @@ unsigned char dir_left = 7;                // pin number to control the left mot
 int groundIRSensor[4] = {8, 9, 10, 11};    // 4 ground IR proximity sensor
 int line[4] = {};                          // store the value of ground IR sensor
 int blackThreashold[4] = {900, 900, 900, 900}; // the threshold of black line
+
 float duty = 0.09;                         // duty cycle
 float left_adjust = 1.20;                  // adjust the left motor
 float right_adjust = 1.22;                 // adjust the right motor
@@ -23,6 +24,7 @@ float right_adjust = 1.22;                 // adjust the right motor
 
 /**
  * @brief To initialize the register for ground IR sensor and ground IR LED
+ * @evaluation Works well
  */
 void groundIRInit()
 {
@@ -31,6 +33,7 @@ void groundIRInit()
 }
 /**
  * @brief To initialize the register for left and right motor
+ * @evaluation Works well
  */
 void motorInit()
 {
@@ -39,6 +42,7 @@ void motorInit()
 }
 /**
  * @brief To initialize the register for green LED
+ * @evaluation Works well
  */
 void greenLEDInit()
 {
@@ -49,6 +53,7 @@ void greenLEDInit()
 
 /**
  * @brief Turn on the ground LED numbered `lineIndex`
+ * @evaluation Works well
  * @param lineIndex
  */
 void groundLEDon(unsigned char lineIndex)
@@ -57,6 +62,7 @@ void groundLEDon(unsigned char lineIndex)
 }
 /**
  * @brief Turn off the ground LED numbered `lineIndex`
+ * @evaluation Works well
  * @param lineIndex
  */
 void groundLEDoff(unsigned char lineIndex)
@@ -68,6 +74,7 @@ void groundLEDoff(unsigned char lineIndex)
 
 /**
  * @brief Turn on the green LED
+ * @evaluation Works well
  */
 void greenLEDon()
 {
@@ -76,6 +83,7 @@ void greenLEDon()
 
 /**
  * @brief Turn off the green LED
+ * @evaluation Works well
  */
 void greenLEDoff()
 {
@@ -86,6 +94,7 @@ void greenLEDoff()
 
 /**
  * @brief Read the value of ground IR sensor and store it in `line`
+ * @evaluation Works well
  */
 void readGroundIRSensors()
 {
@@ -100,6 +109,7 @@ void readGroundIRSensors()
 
 /**
  * @brief Show the value of ground IR sensor
+ * @evaluation Works well
  */
 void showGroundIRSensorLine()
 {
@@ -115,6 +125,7 @@ void showGroundIRSensorLine()
 
 /**
  * @brief Move the left motor forward
+ * @evaluation Works well
  * @param duty
  */
 void leftMotorForward(float duty)
@@ -126,6 +137,7 @@ void leftMotorForward(float duty)
 
 /**
  * @brief Move the right motor forward
+ * @evaluation Works well
  * @param duty
  */
 void rightMotorForward(float duty)
@@ -137,6 +149,7 @@ void rightMotorForward(float duty)
 
 /**
  * @brief Move the left motor backward
+ * @evaluation Works well
  * @param duty
  */
 void leftMotorBackward(float duty)
@@ -148,6 +161,7 @@ void leftMotorBackward(float duty)
 
 /**
  * @brief Move the right motor backward
+ * @evaluation Works well
  * @param duty
  */
 void rightMotorBackward(float duty)
@@ -159,6 +173,7 @@ void rightMotorBackward(float duty)
 
 /**
  * @brief Stop the left motor
+ * @evaluation Works well
  */
 void leftMotorStop()
 {
@@ -168,6 +183,7 @@ void leftMotorStop()
 
 /**
  * @brief Stop the right motor
+ * @evaluation Works well
  */
 void rightMotorStop()
 {
@@ -177,6 +193,7 @@ void rightMotorStop()
 
 /**
  * @brief Turn left
+ * @evaluation Works well
  * @param duty
  */
 void leftTurn(float duty)
@@ -187,6 +204,7 @@ void leftTurn(float duty)
 
 /**
  * @brief Turn right
+ * @evaluation Works well
  * @param duty
  */
 void rightTurn(float duty)
@@ -197,6 +215,7 @@ void rightTurn(float duty)
 
 /**
  * @brief Move forward
+ * @evaluation Works well
  * @param duty
  */
 void moveForward(float duty)
@@ -207,6 +226,7 @@ void moveForward(float duty)
 
 /**
  * @brief Stop the car
+ * @evaluation Works well
  */
 void stop()
 {

@@ -33,6 +33,7 @@ int count_loop = 0;                                       // count the number of
 
 /**
  * @brief To initialize the register for ground IR sensor and ground IR LED
+ * @evaluation Works well
  */
 void groundIRInit()
 {
@@ -41,6 +42,7 @@ void groundIRInit()
 }
 /**
  * @brief To initialize the register for left and right motor
+ * @evaluation Works well
  */
 void motorInit()
 {
@@ -49,6 +51,7 @@ void motorInit()
 }
 /**
  * @brief To initialize the register for green LED
+ * @evaluation Works well
  */
 void greenLEDInit()
 {
@@ -58,6 +61,7 @@ void greenLEDInit()
 
 /**
  * @brief To initialize the register for proximity IR sensor and proximity IR LED
+ * @evaluation Works well
  */
 void proximityIRInit()
 {
@@ -69,6 +73,7 @@ void proximityIRInit()
 
 /**
  * @brief Turn on the ground LED numbered `lineIndex`
+ * @evaluation Works well
  * @param lineIndex
  */
 void groundLEDon(unsigned char lineIndex)
@@ -77,6 +82,7 @@ void groundLEDon(unsigned char lineIndex)
 }
 /**
  * @brief Turn off the ground LED numbered `lineIndex`
+ * @evaluation Works well
  * @param lineIndex
  */
 void groundLEDoff(unsigned char lineIndex)
@@ -88,6 +94,7 @@ void groundLEDoff(unsigned char lineIndex)
 
 /**
  * @brief Turn on the green LED numbered `ledIndex`
+ * @evaluation Works well
  * @param ledIndex
  */
 void greenLEDon(unsigned char ledIndex)
@@ -104,6 +111,7 @@ void greenLEDon(unsigned char ledIndex)
 
 /**
  * @brief Turn off the green LED numbered `ledIndex`
+ * @evaluation Works well
  * @param ledIndex
  */
 void greenLEDoff(unsigned char ledIndex)
@@ -122,6 +130,7 @@ void greenLEDoff(unsigned char ledIndex)
 
 /**
  * @brief Read the value of ground IR sensor
+ * @evaluation Works well
  */
 void readGroundIRSensors()
 {
@@ -136,6 +145,7 @@ void readGroundIRSensors()
 
 /**
  * @brief Show the value of ground IR sensor
+ * @evaluation Works well
  */
 void showGroundIRSensorLine()
 {
@@ -151,6 +161,7 @@ void showGroundIRSensorLine()
 
 /**
  * @brief Turn on the IR LED numbered `proxIndex`
+ * @evaluation Works well
  * @param proxIndex
  */
 void proxLEDon(unsigned char proxIndex)
@@ -160,6 +171,7 @@ void proxLEDon(unsigned char proxIndex)
 
 /**
  * @brief Turn off the IR LED numbered `proxIndex`
+ * @evaluation Works well
  * @param proxIndex
  */
 void proxLEDoff(unsigned char proxIndex)
@@ -171,6 +183,7 @@ void proxLEDoff(unsigned char proxIndex)
 
 /**
  * @brief Read the value of IR proximity sensor
+ * @evaluation Works well
  */
 void readProximityIRSensors()
 {
@@ -184,6 +197,7 @@ void readProximityIRSensors()
 
 /**
  * @brief Calculate the practical value of IR proximity sensor
+ * @evaluation Works well
  */
 double getRealProximity(int proximityValue)
 {
@@ -195,6 +209,7 @@ double getRealProximity(int proximityValue)
 
 /**
  * @brief Control the left motor to move forward
+ * @evaluation Works well
  * @param duty
  */
 void leftMotorForward(float duty)
@@ -206,6 +221,7 @@ void leftMotorForward(float duty)
 
 /**
  * @brief Control the right motor to move forward
+ * @evaluation Works well
  * @param duty
  */
 void rightMotorForward(float duty)
@@ -217,6 +233,7 @@ void rightMotorForward(float duty)
 
 /**
  * @brief Control the left motor to move backward
+ * @evaluation Works well
  * @param duty
  */
 void leftMotorBackward(float duty)
@@ -228,6 +245,7 @@ void leftMotorBackward(float duty)
 
 /**
  * @brief Control the right motor to move backward
+ * @evaluation Works well
  * @param duty
  */
 void rightMotorBackward(float duty)
@@ -239,6 +257,7 @@ void rightMotorBackward(float duty)
 
 /**
  * @brief Control the left motor to stop
+ * @evaluation Works well
  */
 void leftMotorStop()
 {
@@ -248,6 +267,7 @@ void leftMotorStop()
 
 /**
  * @brief Control the right motor to stop
+ * @evaluation Works well
  */
 void rightMotorStop()
 {
@@ -257,6 +277,7 @@ void rightMotorStop()
 
 /**
  * @brief Turn left
+ * @evaluation Works well
  * @param duty
  */
 void leftTurn(float duty)
@@ -267,6 +288,7 @@ void leftTurn(float duty)
 
 /**
  * @brief Turn right
+ * @evaluation Works well
  * @param duty
  */
 void rightTurn(float duty)
@@ -277,6 +299,7 @@ void rightTurn(float duty)
 
 /**
  * @brief Turn left with big angle
+ * @evaluation Works well
  * @param duty
  */
 void leftTurnBigAngle(float duty)
@@ -287,6 +310,7 @@ void leftTurnBigAngle(float duty)
 
 /**
  * @brief Turn right with big angle
+ * @evaluation Works well
  * @param duty
  */
 void rightTurnBigAngle(float duty)
@@ -297,6 +321,7 @@ void rightTurnBigAngle(float duty)
 
 /**
  * @brief Turn left in the same place
+ * @evaluation Works well
  * @param duty
  */
 void leftTurnInPlace(float duty)
@@ -307,6 +332,7 @@ void leftTurnInPlace(float duty)
 
 /**
  * @brief Turn right in the same place
+ * @evaluation Works well
  * @param duty
  */
 void rightTurnInPlace(float duty)
@@ -317,6 +343,7 @@ void rightTurnInPlace(float duty)
 
 /**
  * @brief Move forward
+ * @evaluation Works well
  * @param duty
  */
 void moveForward(float duty)
@@ -327,6 +354,7 @@ void moveForward(float duty)
 
 /**
  * @brief Move backward
+ * @evaluation Works well
  * @param duty
  */
 void stop()
@@ -339,6 +367,7 @@ void stop()
 
 /**
  * @brief Check if the robot is at the corner
+ * @evaluation Works well
  * @return true if the robot is at the corner
  */
 bool isCorner()
@@ -355,6 +384,7 @@ bool isCorner()
 
 /**
  * @brief Check if the robot is at the destination
+ * @evaluation Works well
  * @return true if the robot is at the destination
  */
 bool isDestination()
@@ -373,6 +403,7 @@ bool isDestination()
 
 /**
  * @brief Move forward based on the black line
+ * @evaluation Works well
  * @param duty
  */
 void moveForwardSteadyByBlackLine(float duty)
@@ -390,6 +421,7 @@ void moveForwardSteadyByBlackLine(float duty)
 
 /**
  * @brief Turn left at the corner and move forward based on the black line
+ * @evaluation Works well
  * @param duty
  */
 void turnLeft90DegreeAtCorner(float duty)
@@ -410,6 +442,7 @@ void turnLeft90DegreeAtCorner(float duty)
 
 /**
  * @brief Turn right at the corner and move forward based on the black line
+ * @evaluation Works well
  * @param duty
  */
 void turnRight90DegreeAtCorner(float duty)
@@ -430,6 +463,7 @@ void turnRight90DegreeAtCorner(float duty)
 
 /**
  * @brief Move forward based on the proximity
+ * @evaluation Works well
  * @param duty
  */
 void moveForwardSteadyByProximity(float duty)
