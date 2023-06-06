@@ -5,15 +5,19 @@
 - [Challenge 1 - Line follower, Part 1](#challenge-1---line-follower-part-1)
   - [Description](#description)
   - [Results](#results)
+  - [Comment and possible improvements](#comment-and-possible-improvements)
 - [Challenge 2 - Line follower, Part 2](#challenge-2---line-follower-part-2)
   - [Description](#description-1)
   - [Results](#results-1)
+  - [Comment and possible improvements](#comment-and-possible-improvements-1)
 - [Challenge 3 - Stay inside box and obstacle avoidance](#challenge-3---stay-inside-box-and-obstacle-avoidance)
   - [Description](#description-2)
   - [Results](#results-2)
+  - [Comment and possible improvements](#comment-and-possible-improvements-2)
 - [Challenge 4 - Line and corridor follower](#challenge-4---line-and-corridor-follower)
   - [Description](#description-3)
   - [Results](#results-3)
+  - [Comment and possible improvements](#comment-and-possible-improvements-3)
 - [Conclusion](#conclusion)
 
 # Introduction
@@ -24,7 +28,8 @@ This report is about the lab work of Embedded System. There are four challenges 
 - [Challenge 3 - Stay inside box and obstacle avoidance](#challenge-3---stay-inside-box-and-obstacle-avoidance)
 - [Challenge 4 - Line and corridor follower](#challenge-4---line-and-corridor-follower)
 
-Knowledge we learned from the class, like PWM, finite state machine and threasholding measure, are used in this lab. The main goal of this lab is to make the robot move in a certain way, like following a line, staying inside a box, avoiding obstacles, and following a corridor.
+
+Knowledge we learned from the class, like **PWM, finite state machine and threasholding measure**, are used in this lab. The main goal of this lab is to make the robot move in a certain way, like following a line, staying inside a box, avoiding obstacles, and following a corridor.
 
 All the challenges have been tested successfully on the ELISA-3 robot.
 
@@ -100,6 +105,9 @@ void loop()
     }
 }
 ```
+## Comment and possible improvements
+This main loop works well most times in real tests and it is clear to see the state of the robot! However, **the robot may turn left and right at the same time if the black line is not straight**. This is because the rabot relies on the swing to go straight. I guess if the robot treat different black line angle as different states, it may work better.
+
 
 ![image-20230606170356002](imgs/image-20230606170356002.png)
 
@@ -170,6 +178,9 @@ void loop()
     }
 }
 ```
+
+## Comment and possible improvements
+Actucally the robot can follow the black line in Challenge 2 very well. However, due to the friction between the robot and the ground and unstability output of the battery, the robot may sometimes move very slowly or very fast. I mean, the speed of the robot is not very stable. I guess if we can add a PID controller to control the speed of the robot, it may work better, however, there is no feedback of the speed of the robot, so it is hard to implement a PID controller.
 
 ![image-20230606170431275](imgs/image-20230606170431275.png)
 
@@ -315,6 +326,9 @@ else
 }
 ```
 
+## Comment and possible improvements
+To be honest, the robot performs unstable in the avoidance algorithm. Sometimes, it can avoid the obstacle successfully, but sometimes it cannot. The main reason is the distance threshold is not accurate enough. One of the main reasons is the threshold is too small, the robot will turn too early and cannot follow the black line. another reason is not all the IR sensors are used in the avoidance algorithm. If I can utilize all the IR sensors, the robot will perform better. However, it may take much more time to determine the coefficient of each IR sensor in the avoidance algorithm.
+
 ![image-20230606170505281](imgs/image-20230606170505281.png)
 
 # Challenge 4 - Line and corridor follower
@@ -406,8 +420,6 @@ The **main loop** is implemented as follows:
 ```c
 /*************** main loop Control ***************/
 
-/*************** main loop Control ***************/
-
 void loop()
 {
     count_loop++;             // count the number of loop, used for delay
@@ -484,6 +496,9 @@ void loop()
     }
 }
 ```
+
+## Comment and possible improvements
+Super happy with the result. The robot can successfully complete the entire working strategy super stably. It is able to **follow the black line**, **avoid the obstacles** and **follow the corridor**. If I want to improve the robot, I will try to make the robot **move faster** and **more stable**.
 
 ![image-20230606170543598](imgs/image-20230606170543598.png)
 
