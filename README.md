@@ -13,12 +13,19 @@
   - [Results](#results-3)
 - [Conclusion](#conclusion)
 
-This lab report has been published on [GitHub](https://github.com/Jing-yilin/Embedded-System-Lab#challenge-1---line-follower-part-1) of Jing-yilin.
-
 # Introduction
 
+This report is about the lab work of Embedded System. There are four challenges in this lab work:
+- [Challenge 1 - Line follower, Part 1](#challenge-1---line-follower-part-1)
+- [Challenge 2 - Line follower, Part 2](#challenge-2---line-follower-part-2)
+- [Challenge 3 - Stay inside box and obstacle avoidance](#challenge-3---stay-inside-box-and-obstacle-avoidance)
+- [Challenge 4 - Line and corridor follower](#challenge-4---line-and-corridor-follower)
 
+Knowledge we learned from the class, like PWM, finite state machine and threasholding measure, are used in this lab. The main goal of this lab is to make the robot move in a certain way, like following a line, staying inside a box, avoiding obstacles, and following a corridor.
 
+All the challenges have been tested successfully on the ELISA-3 robot.
+
+Only core code are shown in this report. For the full code, please refer to the [GitHub](https://github.com/Jing-yilin/Embedded-System-Lab) or the code files uploaded on the Canvas.
 # Challenge 1 - Line follower, Part 1
 
 ![image-20230606102822213](imgs/image-20230606102822213.png)
@@ -287,13 +294,172 @@ else
 
 ## Description
 
+Challenge 4 is a comprehensive challenge which aims to detect the black line, corner and the obstacles. Although the task has to be completed in CW and and CCW direction, the algorithm logic is the same. Therefore, only the CW direction will be explained in this report.
 
+The task can be devided into 2 parts:
+- line-following part
+- wall-following part
+
+At the beginning, the robot starts off at the left START spot, and it should follow the black line and turn left at the 1st corner. Then, it should turn right at the 2nd corner, turn left at the 3rd corner and turn right at the 4th corner, while avoiding the obstacles.
+
+After it leaves the line-following part, it should follow the wall and turn left at the 5th corner. Finally, it should stop
+at the FINISH spot coloured in black.
 
 ## Results
 
+Until now, **we have already implemented the line-following algorithm and obstacle avoidance algorithm**. Therefore, we should **focus on the corner detection and the entire working strategy**.
 
+To find the corner, we use the ground sensor 0 and 3 to detect the black line on the most left and right sides of the robot. If both of the sensors detect the black line, it means that the robot has reached the corner. The corner finding algorithm is implemented as follows:
+
+```c
+/**
+ * @brief Check if the robot is at the corner
+ * @return true if the robot is at the corner
+ */
+bool isCorner()
+{
+    if (line[0] > blackThreashold[0] & line[3] > blackThreashold[3])
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+```
+
+We also need a function to check if the robot has reached the FINISH spot. The destinatoin finding algorithm is implemented as follows:
+
+```c
+/**
+ * @brief Check if the robot is at the destination
+ * @return true if the robot is at the destination
+ */
+bool isDestination()
+{
+    if (line[0] > blackThreashold[0] & line[1] > blackThreashold[1] & line[2] > blackThreashold[2] & line[3] > blackThreashold[3])
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+```
+
+Futhremore, I need explain three extra variables:
+```c
+int count_corner = 0;     // count the number of corner
+int state = 0;            // state of the robot
+int count_loop = 0;       // count the number of loop
+```
+- `count_corner` is used to count the number of corner. When the robot reaches the corner, `count_corner` will increase by 1.
+- `state` is used to record the state of the robot. The robot **has 5 states**: 
+  - Move Forward by Black Line: `moveForwardSteadyByBlackLine()`
+  - Turn Left:  `turnLeft90DegreeAtCorner()`
+  - Turn Right:  `turnRight90DegreeAtCorner()`
+  - Move Forward by Proximity: `moveForwardSteadyByProximity()`
+  - Stop: `stop()`
+- `count_loop` is used to **count the number of loop**, and make sure every state transfer have 20 loops of delay (a few ms) from the last state, so the **robot will not repeat the same state in the next loop**.
+
+For the entire working strategy, I use a **finite state machine** to control the robot, which can be illustrated as follows graph:
+
+![image-20230606162223352](imgs/image-20230606162223352.png)
+
+The main loop is implemented as follows:
+
+```c
+/*************** main loop Control ***************/
+
+/*************** main loop Control ***************/
+
+void loop()
+{
+    count_loop++;             // count the number of loop, used for delay
+    readGroundIRSensors();    // read the ground IR sensors
+    readProximityIRSensors(); // read the proximity IR sensors
+
+    /**
+     * switch th state of the robot
+     */
+    switch (state)
+    {
+    case 0: // Move Forward base on BlackLine
+        moveForwardSteadyByBlackLine(duty);
+        break;
+    case 1: // Turn Left base on BlackLine
+        turnLeft90DegreeAtCorner(duty*1.6);
+        state = 0;
+        break;
+    case 2: // Turn Right base on BlackLine
+        turnRight90DegreeAtCorner(duty*1.6);
+        state = 0;
+        break;
+    case 3: // Move Forward base on avoidance
+        moveForwardSteadyByProximity(duty);
+        break;
+    case 4: // Stop
+        stop();
+        delay(100000);
+        break;
+    default:
+        break;
+    }
+
+    /**
+     * check the state of the robot
+     */
+    if (isCorner() & count_corner == 0 & count_loop > 20) // meet the 1st corner
+    {
+        greenLEDon(1);
+        state = 1; // turn left
+        count_corner++;
+        count_loop = 0;
+    }
+    else if (isCorner() & count_corner == 1 & count_loop > 20) // meet the 2nd corner
+    {
+        greenLEDon(2);
+        state = 2; // turn right
+        count_corner++;
+        count_loop = 0;
+    }
+    else if (isCorner() & count_corner == 2 & count_loop > 20) // meet the 3rd corner
+    {
+        greenLEDon(3);
+        state = 1; // turn left
+        count_corner++;
+        count_loop = 0;
+    }
+    else if (isCorner() & count_corner == 3 & count_loop > 20) // meet the 4th corner
+    {
+        greenLEDon(4);
+        state = 2; // turn right
+        count_corner++;
+        count_loop = 0;
+    }
+    else if (isDestination() & count_corner == 4 & count_loop > 20) // meet the destination
+    {
+        greenLEDon(5);
+        state = 4; // stop
+    }
+
+    if (count_corner >= 4 & count_loop == 20) // After the 4th corner, the robot will move forward based on avoidance
+    {
+        state = 3; // To move forward based on avoidance
+    }
+}
+```
 
 <video src="./video/Challenge4.mp4"></video>
 
 # Conclusion
+
+In this project, I have implemented the line-following algorithm in Challenge 1 and 2, and the obstacle avoidance algorithm in Challenge 3. In Challenge 4, I have implemented the entire working strategy, which is a combination of line-following and obstacle avoidance.
+
+After completing all the challenges, I come to realize that the encapsulation of the code is very important. Also, the code should be well-organized and easy to read. In addition, I have learned how to use the finite state machine to control the robot, which is a very useful skill in the future.
+
+It is quite defferent between an ideal test environment and a real test environment. In the ideal test environment, the robot can work very well. However, in the real test environment, the robot may not work as well as in the ideal test environment, mainly because of the friction between the robotand the ground, 
+the uncertain reflectivity of the ground, and the accuracy of the sensors. Therefore, it always takes time to adjust the parameters of the robot to make it work well in the real test environment.
 

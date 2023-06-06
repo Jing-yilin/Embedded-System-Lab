@@ -467,6 +467,9 @@ void loop()
     readGroundIRSensors();    // read the ground IR sensors
     readProximityIRSensors(); // read the proximity IR sensors
 
+    /**
+     * switch th state of the robot
+     */
     switch (state)
     {
     case 0: // Move Forward base on BlackLine
@@ -491,6 +494,9 @@ void loop()
         break;
     }
 
+    /**
+     * check the state of the robot
+     */
     if (isCorner() & count_corner == 0 & count_loop > 20) // meet the 1st corner
     {
         greenLEDon(1);
