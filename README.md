@@ -182,9 +182,11 @@ Firstly, it is crucial to **find the mathematic relationship between the distanc
 |         24         |          879           |
 
 ![Relationship between Real Distance and Proximity Sensor Value](imgs/Relationship%20between%20Real%20Distance%20and%20Proximity%20Sensor%20Value.png)
+
 $$
 y(x) = 0.02161x -0.6154
 $$
+
 Thus, we can define a function to transform the value of IR proximity sensor to the real distance:
 
 ```c
